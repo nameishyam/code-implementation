@@ -14,7 +14,7 @@ from sklearn.metrics import confusion_matrix
 from torch.cuda.amp import autocast, GradScaler  # For mixed precision
 
 # Define image transformations
-SIZE, _ = Image.open("./highres/test/3/069f43616fab-600-FA-HFA.jp").size  # Image size taken from a sample image as the folder conatins all of the images with the same size
+SIZE = 512
 image_transforms = {
     'train': transforms.Compose([
         transforms.Resize(size=SIZE),
