@@ -1,0 +1,18 @@
+global:
+  seed: 42
+  device: "cuda"
+
+training:
+  batch_size: 16
+  epochs: 200
+  lr: 1e-4
+  checkpoint_interval: 10
+  image_size: 256
+
+loss_weights:
+  gan: 1.0
+  content: 1.0
+  drnet: 0.5
+  ssim: 0.5
+  lpips: 0.3
+  vessel: 0.2
