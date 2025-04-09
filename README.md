@@ -52,8 +52,8 @@ By fusing image super-resolution with state-of-the-art classification techniques
 
 ```mermaid
 flowchart LR
-    A[Raw Retinal Images] --> C[SRGAN Enhancement]
-    C --> B[Custom DRNet Feature Extraction]
+    A[Raw Retinal Images] --> B[Custom DRNet Feature Extraction]
+    B --> C[SRGAN Image Enhancement]
     C --> D[Classification Module]
     D --> E[Diagnostic Report]
 ```
