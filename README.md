@@ -1,6 +1,6 @@
 # Diabetic Retinopathy Analysis Project
 
-Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge application that leverages state-of-the-art deep learning techniques to detect and classify diabetic retinopathy with precision and efficiency. This solution integrates a custom DRNet architecture, incorporating SRGAN for advanced image enhancement, and a robust classification module to deliver actionable insights for clinical decision-making.
+Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge application that leverages state-of-the-art deep learning techniques to detect and classify diabetic retinopathy with precision and efficiency. This solution integrates a custom DRNet architecture for feature extraction, incorporating SRGAN for advanced image enhancement, and a robust classification module to deliver actionable insights for clinical decision-making.
 
 ---
 
@@ -66,19 +66,18 @@ flowchart LR
 
 Ensure your system meets the following requirements:
 
-- **Python 3.8+**
+- **Python 3.11+**
 - **CUDA-enabled GPU (optional, for enhanced training and inference performance)**
-- **TensorFlow/PyTorch:** Depending on the model framework employed.
-- **Node.js & npm (optional):** For running the associated frontend dashboard.
-- **Database:** PostgreSQL or MySQL for persistent storage and logging.
+- **PyTorch**
+- **Flask Framework**
 
 ### Setup Steps
 
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/diabetic-retinopathy-project.git
-   cd diabetic-retinopathy-project
+   git clone https://github.com/nameishyam/code-implementation.git
+   cd code-implementation
    ```
 
 2. **Create a Virtual Environment:**
@@ -92,18 +91,6 @@ Ensure your system meets the following requirements:
 
    ```bash
    pip install -r requirements.txt
-   ```
-
-4. **Install Frontend Dependencies (if applicable):**
-
-   ```bash
-   npm install
-   ```
-
-5. **Database Setup:**  
-   Run the following command to initialize the database schema:
-   ```bash
-   python manage.py db upgrade
    ```
 
 ---
@@ -181,14 +168,9 @@ This project is licensed under the [MIT License](LICENSE). You are free to use, 
 
 For further inquiries or collaboration opportunities:
 
-- **Email:** innovation@dranalysisproject.com
-- **Website:** [www.dranalysisproject.com](https://www.dranalysisproject.com)
-- **GitHub:** [Diabetic Retinopathy Analysis Project](https://github.com/yourusername/diabetic-retinopathy-project)
+- **Email:** geddamgowtham4@gmail.com
+- **GitHub:** [Diabetic Retinopathy Analysis Project](https://github.com/nameishyam/code-implementation)
 
 ---
 
 Embrace the future of healthcare diagnostics with the Diabetic Retinopathy Analysis Project. Together, we can drive innovation, elevate patient care, and enhance operational efficiencies in medical imaging.
-
-```
-
-```
