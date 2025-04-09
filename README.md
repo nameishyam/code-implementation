@@ -1,4 +1,3 @@
-````markdown
 # Diabetic Retinopathy Analysis Project
 
 Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge application that leverages state-of-the-art deep learning techniques to detect and classify diabetic retinopathy with precision and efficiency. This solution integrates a custom DRNet architecture, incorporating SRGAN for advanced image enhancement, and a robust classification module to deliver actionable insights for clinical decision-making.
@@ -58,7 +57,6 @@ flowchart LR
     C --> D[Classification Module]
     D --> E[Diagnostic Report]
 ```
-````
 
 ---
 
