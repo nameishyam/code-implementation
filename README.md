@@ -10,10 +10,7 @@ Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge solu
 - [Features](#features)
 - [Architecture](#architecture)
 - [Installation](#installation)
-- [Configuration](#configuration)
 - [Usage](#usage)
-- [Testing](#testing)
-- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -73,7 +70,6 @@ flowchart TD
 - **Python 3.11+**
 - **CUDA-enabled GPU** (recommended for training/inference)
 - **PyTorch**
-- **Flask** (for web interface)
 
 ### Setup Steps
 
@@ -85,8 +81,6 @@ flowchart TD
    ```
 
 2. **Install DRNet as a Local Package:**
-
-   Navigate to the DRNet directory (contains `setup.py` and `drnet.py`) and run:
 
    ```bash
    pip install -e .
@@ -109,76 +103,42 @@ flowchart TD
 
 ---
 
-## Configuration
-
-- **DRNet Parameters:** Set in `drnet_config.yaml` or `config.py` for training DRNet.
-- **SRGAN Parameters:** Managed via `srgan_config.json`.
-- **Classification Settings:** Defined in `classify_config.yaml`.
-
-Sensitive variables should be stored securely in a `.env` file. Use `.env.example` as a template.
-
----
-
 ## Usage
 
 ### Step-by-Step Execution
 
-1. **Train DRNet Feature Extractor:**
+1. **Train DRNet Feature Extractor:**(in drnet folder)
 
    ```bash
-   python train_drnet.py
+   python drnet.py
    ```
 
-2. **Install DRNet Package Locally:**
+2. **Install DRNet Package Locally:**(in root)
 
    ```bash
    pip install -e .
    ```
 
-3. **Run SRGAN-Proposed Training with DRNet Integration:**
+3. **Run SRGAN-Proposed Training with DRNet Integration:**(in srgan-proposed folder)
 
    ```bash
-   python train_srgan_proposed.py
+   python code.py
    ```
 
-4. **Generate Super-Resolved Images and Compare with Baselines:**
+4. **Generate Super-Resolved Images and Compare with Baselines:**(in root directory)
 
    ```bash
-   python evaluate_super_resolution.py
+   python image-gen.py
    ```
 
 5. **Run Classification on Both Image Sets:**
 
    ```bash
-   python classify_images.py --mode low_res
-   python classify_images.py --mode high_res
+   python highres.py
+   python lowres.py
    ```
 
-6. **Launch Dashboard and Backend API:**
-
-   ```bash
-   python manage.py runserver
-   ```
-
----
-
-## Testing
-
-- **Unit Tests:**
-
-  ```bash
-  pytest tests/ --maxfail=1 --disable-warnings -q
-  ```
-
-- **Integration Tests:** Included in CI/CD pipeline for pre-deployment validation.
-
----
-
-## Deployment
-
-- **Docker Support:** Dockerfiles included for containerized deployments.
-- **Cloud-Ready:** Compatible with AWS, GCP, Azure for scalable execution.
-- **Monitoring:** Optional Prometheus/Grafana setup available for production monitoring.
+   seperately for each dataeset and for each resolution (low and high)
 
 ---
 
