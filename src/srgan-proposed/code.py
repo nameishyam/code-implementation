@@ -130,7 +130,7 @@ def train_and_evaluate(lambda_content, lambda_adv, lambda_ssim, lambda_lpips, la
     
     # Load pre-trained DRNet weights if available
     try:
-        generator.feature_extractor.load_state_dict(torch.load('DRNet.pth'), strict=False)
+        generator.feature_extractor.load_state_dict(torch.load('../../model/DRNet.pth'), strict=False)
         print("Loaded DRNet weights successfully")
     except Exception as e:
         print(f"Failed to load weights: {e}")
@@ -155,11 +155,11 @@ def train_and_evaluate(lambda_content, lambda_adv, lambda_ssim, lambda_lpips, la
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
-    dataset = FundusDataset(img_dir='./images', transform=transform)
+    dataset = FundusDataset(img_dir='../../data/lowres/eyepacs', transform=transform)
     loader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=os.cpu_count())
     
     # Training Loop
-    num_epochs = 10  # Reduced for tuning; increase for final training
+    num_epochs = 1000
     for epoch in range(num_epochs):
         running_d_loss = 0.0
         running_g_total = 0.0
@@ -223,16 +223,6 @@ def train_and_evaluate(lambda_content, lambda_adv, lambda_ssim, lambda_lpips, la
         avg_ssim = running_ssim / len(loader)
         avg_lpips = running_lpips / len(loader)
         avg_vessel = running_vessel / len(loader)
-
-        # if (epoch == num_epochs - 1):
-        #     # Print epoch-wise losses
-        #     print(f"\nEpoch {epoch+1}/{num_epochs}")
-        #     print(f"D Loss: {avg_d_loss:.4f} | G Total: {avg_g_total:.4f}")
-        #     print(f"  Content: {avg_content:.4f}")
-        #     print(f"  Adv: {avg_adv:.4f}")
-        #     print(f"  SSIM: {avg_ssim:.4f}")
-        #     print(f"  LPIPS: {avg_lpips:.4f}")
-        #     print(f"  Vessel: {avg_vessel:.4f}")
     
     # Evaluation Loop
     generator.eval()
@@ -307,8 +297,8 @@ def grid_search():
     print(f"Best Hyperparameters: {best_params}")
     
     # Save the best models
-    torch.save(best_generator.state_dict(), 'SRGAN_Generator_Best.pth')
-    torch.save(best_discriminator.state_dict(), 'SRGAN_Discriminator_Best.pth')
+    torch.save(best_generator.state_dict(), '../../model/SRGAN_Generator_Best.pth')
+    torch.save(best_discriminator.state_dict(), '../../model/SRGAN_Discriminator_Best.pth')
 
 # Main Execution
 if __name__ == "__main__":

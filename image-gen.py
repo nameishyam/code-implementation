@@ -22,7 +22,7 @@ class Generator(torch.nn.Module):
 # Load the generator
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 generator = Generator().to(device)
-generator.load_state_dict(torch.load('generator.pth', map_location=device))
+generator.load_state_dict(torch.load('./model/SRGAN_Generator_Best.pth', map_location=device))
 generator.eval()
 
 # Image preprocessing
@@ -33,8 +33,8 @@ transform = transforms.Compose([
 ])
 
 # Paths
-input_folder = 'input_images'
-output_folder = 'output_images'
+input_folder = './data/lowres/eyepacs'
+output_folder = './data/highres/eyepacs'
 os.makedirs(output_folder, exist_ok=True)
 
 # Process each image

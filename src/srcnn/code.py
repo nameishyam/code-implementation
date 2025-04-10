@@ -73,7 +73,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
-dataset = FundusDataset(img_dir='./images', transform=transform)
+dataset = FundusDataset(img_dir='../../data/lowres/eyepacs', transform=transform)
 loader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=os.cpu_count())
 
 # Training Loop
@@ -96,9 +96,6 @@ for epoch in range(num_epochs):
     avg_loss = running_loss / len(loader)
     if (epoch+1) % 50 == 0:
         print(f"Epoch {epoch+1}/{num_epochs}, Content Loss: {avg_loss:.4f}")
-
-# Save Model
-torch.save(generator.state_dict(), 'SRCNN_Generator.pth')
 
 # Evaluation Loop
 generator.eval()
