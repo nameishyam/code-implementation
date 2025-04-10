@@ -1,6 +1,6 @@
 # Diabetic Retinopathy Analysis Project
 
-Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge application that leverages state-of-the-art deep learning techniques to detect and classify diabetic retinopathy with precision and efficiency. This solution integrates a custom DRNet architecture for feature extraction, incorporating SRGAN for advanced image enhancement, and a robust classification module to deliver actionable insights for clinical decision-making.
+Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge solution leveraging advanced deep learning techniques to detect and classify diabetic retinopathy with high precision. This pipeline integrates a custom DRNet architecture for domain-specific feature extraction, utilizes a modified SRGAN for retinal image enhancement, and concludes with a robust classification module to support clinical diagnostics at scale.
 
 ---
 
@@ -22,41 +22,47 @@ Welcome to the **Diabetic Retinopathy Analysis Project** – a cutting-edge appl
 
 ## Overview
 
-The Diabetic Retinopathy Analysis Project is designed to empower healthcare professionals by automating the screening and grading processes of diabetic retinopathy. The core of our system is the custom-built **DRNet** class, a tailored deep learning model that integrates the SRGAN framework for super-resolution enhancement, ensuring that even low-quality retinal images are optimized for accurate classification.
+This project automates the detection and grading of diabetic retinopathy from retinal images using a multi-stage pipeline:
 
-By fusing image super-resolution with state-of-the-art classification techniques, this project aims to streamline the diagnostic process, reduce manual intervention, and provide a scalable solution for large-scale screening initiatives.
+1. **Feature Extraction (DRNet):** A custom-built deep learning model, DRNet, is trained first to extract retinal features. It is exported as a reusable package and installed locally using `pip install -e .`.
+2. **Image Super-Resolution (SRGAN-Proposed):** The DRNet model is then integrated as a feature extractor in a proposed SRGAN generator. While DRNet contributes to perceptual feature extraction, the remaining generator layers handle upsampling and image reconstruction.
+3. **Comparative Benchmarking:** The SRGAN-proposed model is evaluated against other super-resolution baselines, including **Bilinear Interpolation**, **SRCNN**, **ESRGAN**, and a **baseline SRGAN**, using perceptual and structural metrics.
+4. **Classification Module:** Finally, classification is performed on both low-resolution and high-resolution images to demonstrate the diagnostic uplift achieved through super-resolution.
 
 ---
 
 ## Features
 
-- **Custom DRNet Architecture:** A bespoke deep learning model tailored to the specific challenges of retinal image analysis.
-- **SRGAN Integration:** Utilizes Super Resolution Generative Adversarial Networks (SRGAN) to enhance image quality, yielding improved feature extraction and diagnostic accuracy.
-- **Advanced Classification Module:** Implements a sophisticated classification pipeline for detecting and grading the severity of diabetic retinopathy.
-- **Automated Preprocessing:** Includes data normalization, augmentation, and noise reduction to standardize and optimize incoming images.
-- **Scalable and Modular Design:** Engineered for seamless integration into clinical workflows and adaptable for future enhancements.
-- **Real-Time Analytics and Reporting:** Provides dynamic dashboards for monitoring screening progress and evaluating model performance.
-- **Robust Security Measures:** Ensures that patient data is handled in strict accordance with HIPAA and other regulatory standards.
+- **Custom DRNet Architecture:** Purpose-built to learn domain-specific retinal features. Repackaged and installed as a pip-installable module.
+- **Proposed SRGAN with DRNet Integration:** A modified SRGAN generator that embeds DRNet for high-quality feature preservation and refined image upsampling.
+- **Baseline Comparisons:** Robust benchmarking against traditional and state-of-the-art super-resolution techniques.
+- **Dual-Path Classification:** Performs disease grading on both original and super-resolved images to validate improvements in classification accuracy.
+- **Modular and Scalable Pipeline:** Enables independent execution of DRNet training, SRGAN enhancement, and classification, promoting flexibility and reusability.
+- **Automated Preprocessing and Evaluation:** Includes normalization, augmentation, and detailed model evaluation metrics including PSNR, SSIM, LPIPS, and vessel-based scoring.
+- **Compliant and Secure:** Designed with healthcare-grade security and regulatory compliance in mind.
 
 ---
 
 ## Architecture
 
-### DRNet Overview
-
-- **Custom DRNet Class:** The backbone of our model, DRNet is engineered to balance depth and computational efficiency. It is designed specifically for medical imaging challenges, providing high accuracy in identifying subtle pathological features.
-- **SRGAN Integration:** Preprocessing leverages SRGAN to significantly enhance the resolution of retinal images before they are processed by DRNet, enabling the model to capture finer details.
-- **Classification Pipeline:** After super-resolution and feature extraction, the classification module categorizes images based on severity levels. The pipeline is modular, allowing for independent updates to individual components without disrupting the overall system.
-
-### Flow Diagram
+### Execution Flow Overview
 
 ```mermaid
-flowchart LR
-    A[Raw Retinal Images] --> B[Custom DRNet Feature Extraction]
-    B --> C[SRGAN Image Enhancement]
-    C --> D[Classification Module]
-    D --> E[Diagnostic Report]
+flowchart TD
+    A[Train DRNet Feature Extractor] --> B[Export DRNet.pth & Install as Package]
+    B --> C[Use DRNet in SRGAN-Proposed Generator]
+    C --> D[Image Enhancement via SRGAN]
+    D --> E[Compare with Bilinear, SRCNN, ESRGAN, SRGAN-Baseline]
+    E --> F[Classification on Low-Res and High-Res Images]
+    F --> G[Performance Evaluation and Reporting]
 ```
+
+### Modular Architecture Description
+
+- **DRNet (Feature Extractor):** Trained separately on the APTOS dataset and installed using a local `setup.py`. Provides perceptual features to the SRGAN generator.
+- **SRGAN-Proposed:** Incorporates DRNet feature maps and adds new upsampling and residual blocks for high-fidelity image reconstruction.
+- **Baseline Models:** Used for comparative analysis—each model processes the same input images for fair performance evaluation.
+- **Classification:** A CNN-based classification head is used to analyze both native and enhanced images, reporting performance deltas.
 
 ---
 
@@ -64,12 +70,10 @@ flowchart LR
 
 ### Prerequisites
 
-Ensure your system meets the following requirements:
-
 - **Python 3.11+**
-- **CUDA-enabled GPU (optional, for enhanced training and inference performance)**
+- **CUDA-enabled GPU** (recommended for training/inference)
 - **PyTorch**
-- **Flask Framework**
+- **Flask** (for web interface)
 
 ### Setup Steps
 
@@ -80,14 +84,24 @@ Ensure your system meets the following requirements:
    cd code-implementation
    ```
 
-2. **Create a Virtual Environment:**
+2. **Install DRNet as a Local Package:**
+
+   Navigate to the DRNet directory (contains `setup.py` and `drnet.py`) and run:
+
+   ```bash
+   pip install -e .
+   ```
+
+   This makes `DRNet` importable as a module in the SRGAN and classification pipelines.
+
+3. **Create and Activate Virtual Environment:**
 
    ```bash
    python -m venv env
-   source env/bin/activate  # Windows: env\Scripts\activate
+   source env/bin/activate  # On Windows: env\Scripts\activate
    ```
 
-3. **Install Python Dependencies:**
+4. **Install Remaining Dependencies:**
 
    ```bash
    pip install -r requirements.txt
@@ -97,80 +111,103 @@ Ensure your system meets the following requirements:
 
 ## Configuration
 
-- **Config Files:** Adjust the settings in `config.yaml` or `config.json` for environment variables, database connections, and DRNet hyperparameters.
-- **.env File:** Secure sensitive information such as API keys and database credentials. Refer to `.env.example` for guidance.
+- **DRNet Parameters:** Set in `drnet_config.yaml` or `config.py` for training DRNet.
+- **SRGAN Parameters:** Managed via `srgan_config.json`.
+- **Classification Settings:** Defined in `classify_config.yaml`.
 
-Ensure that all configurations are tailored to meet your operational and compliance requirements.
+Sensitive variables should be stored securely in a `.env` file. Use `.env.example` as a template.
 
 ---
 
 ## Usage
 
-### Running the Application
+### Step-by-Step Execution
 
-Start the application using:
+1. **Train DRNet Feature Extractor:**
 
-```bash
-python manage.py runserver
-```
+   ```bash
+   python train_drnet.py
+   ```
 
-This command launches the web server and initiates the backend services for image processing and classification.
+2. **Install DRNet Package Locally:**
 
-### System Interactions
+   ```bash
+   pip install -e .
+   ```
 
-- **Web Interface:** Access the diagnostic dashboard for real-time analytics, reporting, and model performance monitoring.
-- **API Endpoints:** Use RESTful APIs to integrate with other systems. Consult the API documentation for detailed usage instructions.
+3. **Run SRGAN-Proposed Training with DRNet Integration:**
+
+   ```bash
+   python train_srgan_proposed.py
+   ```
+
+4. **Generate Super-Resolved Images and Compare with Baselines:**
+
+   ```bash
+   python evaluate_super_resolution.py
+   ```
+
+5. **Run Classification on Both Image Sets:**
+
+   ```bash
+   python classify_images.py --mode low_res
+   python classify_images.py --mode high_res
+   ```
+
+6. **Launch Dashboard and Backend API:**
+
+   ```bash
+   python manage.py runserver
+   ```
 
 ---
 
 ## Testing
 
-Robust testing is embedded within the project lifecycle:
+- **Unit Tests:**
 
-- **Unit and Integration Tests:** Execute tests using:
   ```bash
-  pytest --maxfail=1 --disable-warnings -q
+  pytest tests/ --maxfail=1 --disable-warnings -q
   ```
-- **Continuous Integration (CI):** Integrated with CI/CD pipelines to ensure code quality and model reliability.
+
+- **Integration Tests:** Included in CI/CD pipeline for pre-deployment validation.
 
 ---
 
 ## Deployment
 
-For a smooth transition to production, consider the following steps:
-
-- **Containerization:** Utilize Docker to create standardized deployment environments.
-- **Cloud Integration:** Deploy on platforms like AWS, Azure, or Google Cloud to benefit from scalable infrastructure.
-- **Monitoring and Logging:** Integrate with monitoring tools (e.g., Prometheus, Grafana) for real-time performance analysis and alerting.
+- **Docker Support:** Dockerfiles included for containerized deployments.
+- **Cloud-Ready:** Compatible with AWS, GCP, Azure for scalable execution.
+- **Monitoring:** Optional Prometheus/Grafana setup available for production monitoring.
 
 ---
 
 ## Contributing
 
-We welcome forward-thinking contributors to help drive innovation. To contribute:
+We actively encourage innovation. If you'd like to enhance this solution:
 
-- Fork the repository.
-- Create a feature branch for your enhancements.
-- Commit your changes with clear, descriptive messages.
-- Submit a pull request detailing your modifications.
+- Fork the repo.
+- Create a feature branch.
+- Commit with clear messages.
+- Submit a pull request.
 
-Please review our [Contributing Guidelines](CONTRIBUTING.md) for further details.
+Refer to our [Contributing Guidelines](CONTRIBUTING.md) for standards and review processes.
 
 ---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software in accordance with the license terms.
+Licensed under the [MIT License](LICENSE). You are free to use, distribute, and modify this software under its terms.
 
 ---
 
 ## Contact
 
-For further inquiries or collaboration opportunities:
+For support, collaboration, or insights:
 
 - **Email:** geddamgowtham4@gmail.com
 - **GitHub:** [Diabetic Retinopathy Analysis Project](https://github.com/nameishyam/code-implementation)
 
 ---
 
-Embrace the future of healthcare diagnostics with the Diabetic Retinopathy Analysis Project. Together, we can drive innovation, elevate patient care, and enhance operational efficiencies in medical imaging.
+Together, let’s revolutionize retinal diagnostics through AI-powered solutions that blend precision, scalability, and clinical relevance.
