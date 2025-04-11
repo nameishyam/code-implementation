@@ -44,7 +44,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
-dataset = FundusDataset(img_dir='../../data/lowres/eyepacs', transform=transform)
+dataset = FundusDataset(img_dir='../../data/lowres/eyepacs/train', transform=transform)
 loader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=os.cpu_count())
 
 # Load VGG19 for content loss

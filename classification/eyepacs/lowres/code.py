@@ -36,7 +36,7 @@ image_transforms = {
 }
 
 # Set data directory paths
-root = './highres/'
+root = '../../../data/eyepacs/lowres/'
 train_directory = root + 'train'
 val_directory = root + 'val'
 test_directory = root + 'test'

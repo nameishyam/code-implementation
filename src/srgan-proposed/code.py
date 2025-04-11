@@ -155,7 +155,7 @@ def train_and_evaluate(lambda_content, lambda_adv, lambda_ssim, lambda_lpips, la
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
-    dataset = FundusDataset(img_dir='../../data/lowres/eyepacs', transform=transform)
+    dataset = FundusDataset(img_dir='../../data/lowres/eyepacs/train', transform=transform)
     loader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=os.cpu_count())
     
     # Training Loop

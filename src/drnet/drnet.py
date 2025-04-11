@@ -139,7 +139,7 @@ def extract_features():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Load dataset
-    dataset = MultiScaleFundusDataset(img_dir='./images')
+    dataset = MultiScaleFundusDataset(img_dir='../../data/aptos')
     data_loader = DataLoader(dataset, batch_size=4, shuffle=False, num_workers=os.cpu_count())
     
     # Initialize model

@@ -33,8 +33,8 @@ transform = transforms.Compose([
 ])
 
 # Paths
-input_folder = './data/lowres/eyepacs'
-output_folder = './data/highres/eyepacs'
+input_folder = './data/lowres/eyepacs/train'
+output_folder = './data/highres/eyepacs/train'
 os.makedirs(output_folder, exist_ok=True)
 
 # Process each image
